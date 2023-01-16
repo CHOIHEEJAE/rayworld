@@ -34,8 +34,8 @@ import 'package:flame/sprite.dart';
 
 class Player extends SpriteAnimationComponent
     with HasGameRef, Hitbox, Collidable {
-  final double _playerSpeed = 300.0;
-  final double _animationSpeed = 0.15;
+  final double _playerSpeed = 300.0; // 캐릭터 이동 속도 변수 추가
+  final double _animationSpeed = 0.15; // 캐릭터 이동 시 사용할 애니메이션 속도 변수
 
   late final SpriteAnimation _runDownAnimation;
   late final SpriteAnimation _runLeftAnimation;
@@ -57,13 +57,21 @@ class Player extends SpriteAnimationComponent
   @override
   Future<void> onLoad() async {
     super.onLoad();
+    // _loadAnimations() 비동기 호출 : 애니메이션이 로드될 때 까지 대기 후 _standingAnimation 설정
     _loadAnimations().then((_) => {animation = _standingAnimation});
   }
 
+//캐릭터 이동 시 실행
+/**
+ * update - Flame 구성 요소에 대한 고유 기능
+ * 프레임을 렌더링 해야 할 때 마다 호출됨
+ * Flame은 모든 게임 구성 요소가 동시에 업데이트 되도록 함
+ * delta는 마지막 업데이트 주기 이후 경과된 시간을 나타내고, 캐릭터가 이동하는데 사용할 수 있음
+ */
   @override
   void update(double delta) {
     super.update(delta);
-    movePlayer(delta);
+    movePlayer(delta); // 방향을 읽는 함수, 이동방법
   }
 
   @override
@@ -89,6 +97,9 @@ class Player extends SpriteAnimationComponent
       srcSize: Vector2(29.0, 32.0),
     );
 
+    /**
+     * 애니메이션 이미지 로드
+     */
     _runDownAnimation =
         spriteSheet.createAnimation(row: 0, stepTime: _animationSpeed, to: 4);
 
@@ -105,6 +116,9 @@ class Player extends SpriteAnimationComponent
         spriteSheet.createAnimation(row: 0, stepTime: _animationSpeed, to: 1);
   }
 
+/**
+ * 캐릭터 이동 추가 + 이동방향에 따라 올바른 애니메이션 할당
+ */
   void movePlayer(double delta) {
     switch (direction) {
       case Direction.up:
@@ -165,6 +179,9 @@ class Player extends SpriteAnimationComponent
     return true;
   }
 
+/**
+ * 플레이어 이동속도에 따라 위치 값을 업데이트함
+ */
   void moveUp(double delta) {
     position.add(Vector2(0, delta * -_playerSpeed));
   }

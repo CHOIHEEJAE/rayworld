@@ -37,6 +37,7 @@ class RayWorldGame extends FlameGame with HasCollidables, KeyboardEvents {
           ..height = rect.height);
       });
 
+// joyPad로 캐릭터 움직임 추가
   void onJoypadDirectionChanged(Direction direction) {
     _player.direction = direction;
   }
