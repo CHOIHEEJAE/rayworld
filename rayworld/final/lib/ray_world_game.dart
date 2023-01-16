@@ -14,13 +14,13 @@ import 'package:flutter/material.dart';
 import 'helpers/map_loader.dart';
 
 class RayWorldGame extends FlameGame with HasCollidables, KeyboardEvents {
-  final Player _player = Player();
-  final World _world = World();
+  final Player _player = Player(); //캐릭터
+  final World _world = World(); //배경
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    await add(_world);
+    await add(_world); // 플레이어 로드 전에 배경부터 로딩 필요 : 플레이어를 먼저 렌더링하면 캐릭터가 가려짐
     add(_player);
     addWorldCollision();
 
