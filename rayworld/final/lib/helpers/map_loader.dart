@@ -26,15 +26,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. **/
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; //물질계 구성요소 구현을 위한 flutter 위젯
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
 class MapLoader {
   static Future<List<Rect>> readRayWorldCollisionMap() async {
     final collidableRects = <Rect>[];
-    final dynamic collisionMap = json.decode(
-        await rootBundle.loadString('assets/rayworld_collision_map.json'));
+    final dynamic collisionMap = json.decode(await rootBundle.loadString(
+        'assets/rayworld_collision_map.json')); // 배경을 구성할 .json 파일 디코딩
+
+    print(collisionMap.toString());
 
     for (final dynamic data in collisionMap['objects']) {
       collidableRects.add(Rect.fromLTWH(
